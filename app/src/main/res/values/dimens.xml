@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="marginSmall">16dp</dimen>
+    <dimen name="textFieldHeight">128dp</dimen>
+    <dimen name="paddingSmall">16dp</dimen>
+    <dimen name="marginNormal">36dp</dimen>
+    <dimen name="marginLarge">64dp</dimen>
+    <dimen name="result_Fragment_height">500dp</dimen>
+</resources>
