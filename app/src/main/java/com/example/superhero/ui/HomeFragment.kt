@@ -18,18 +18,24 @@ class HomeFragment:BaseFragment<FragmentHomeBinding>() {
 
     override fun addCallbacks() {
         binding?.editTextSearch?.setOnEditorActionListener { textView, i, keyEvent ->
-            if (keyEvent!=null && keyEvent.keyCode==KeyEvent.KEYCODE_ENTER)
+            if (keyEvent!=null && keyEvent.keyCode==KeyEvent.KEYCODE_ENTER){
+                hideViews()
                 addResultFragment(textView.text.toString())
+            }
+
             false
         }
         }
 
     private fun addResultFragment(heroName: String) {
-        binding?.searchAnimation?.visibility=View.GONE
         val resultFragment=ResultFragment()
         val bundle=Bundle()
         bundle.putString(Constant.HERO_NAME,heroName)
         resultFragment.arguments=bundle
         requireActivity().supportFragmentManager.beginTransaction().add(R.id.fragment_container_result,resultFragment).commit()
+    }
+
+    private fun hideViews() {
+        binding?.searchAnimation?.visibility=View.GONE
     }
 }
