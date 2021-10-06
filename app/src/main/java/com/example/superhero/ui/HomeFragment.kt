@@ -9,7 +9,7 @@ import com.example.superhero.R
 import com.example.superhero.databinding.FragmentHomeBinding
 import com.example.superhero.util.Constant
 
-class HomeFragment:BaseFragment<FragmentHomeBinding>() {
+class zHomeFragment:BaseFragment<FragmentHomeBinding>() {
     override val LOG_TAG: String="HOME_FRAGMENT"
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding=FragmentHomeBinding::inflate
     override fun setup() {
