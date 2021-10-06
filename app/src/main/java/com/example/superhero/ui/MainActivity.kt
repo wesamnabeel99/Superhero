@@ -18,16 +18,36 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        getHeroResult("Batman")
+        getQueryResult("Batman")
 
     }
 
-       private fun getHeroResult(searchQuery:String){
+    private fun getHeroReusltsById(id: Int){
+        lifecycleScope.launch {
+            HeroRepositry.getSuperResults(id).collect{getSuperHeroById(it)}
+        }
+    }
+
+    private fun getSuperHeroById(status: Status<SuperHero>) {
+        when (status) {
+            is Status.Error -> {
+                Log.i(TAG,"error ${status.message}")
+            }
+            is Status.Loading -> {
+                Log.i(TAG,"loading")
+            }
+            is Status.Success -> {
+                Log.i(TAG,"sucess ${status.data.name}")
+            }
+        }
+    }
+
+    private fun getQueryResult(searchQuery:String){
            lifecycleScope.launch {
-             HeroRepositry.getQueryResults(searchQuery).collect { getResult(it) }
+             HeroRepositry.getQueryResults(searchQuery).collect { getSearchResponceStatus(it) }
            }
        }
-    private fun getResult(status:Status<SearchResponse>) {
+    private fun getSearchResponceStatus(status:Status<SearchResponse>) {
         when (status) {
             is Status.Error -> {
                 Log.i(TAG,"error ${status.message}")
@@ -36,7 +56,8 @@ class MainActivity : AppCompatActivity(){
                 Log.i(TAG,"loading")
             }
             is Status.Success -> {
-                Log.i(TAG,"sucess ${status.data.listOfResults[0].biography}")
+//                Log.i(TAG,"sucess ${status.data.listOfResults[0].biography}")
+                getHeroReusltsById(status.data.listOfResults[0].id!!.toInt())
             }
         }
     }

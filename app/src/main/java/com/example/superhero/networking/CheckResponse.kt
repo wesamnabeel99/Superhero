@@ -19,4 +19,16 @@ object CheckResponse {
         }
     }
 
+    fun responseIdStatus(response: Response): Status<SuperHero> {
+        return if (response.isSuccessful) {
+            val parserResponse = Gson().fromJson(
+                response.body?.string(),
+                SuperHero::class.java
+            )
+            Status.Success(parserResponse)
+        } else {
+            Status.Error(response.message)
+        }
+    }
+
 }
