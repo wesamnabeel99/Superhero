@@ -5,14 +5,17 @@ import android.view.ViewGroup
 import com.example.superhero.databinding.FragmentResultBinding
 import com.example.superhero.util.Constant
 
-class ResultFragment:BaseFragment<FragmentResultBinding>() {
-    lateinit var heroName:String
-    override val LOG_TAG: String="RESULT_FRAGMENT"
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentResultBinding=FragmentResultBinding::inflate
+class ResultFragment : BaseFragment<FragmentResultBinding>() {
+    lateinit var heroName: String
+    override val LOG_TAG: String = "RESULT_FRAGMENT"
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentResultBinding =
+        FragmentResultBinding::inflate
+
     override fun onStart() {
         super.onStart()
-        heroName= arguments?.getString(Constant.HERO_NAME).toString()
+        heroName = arguments?.getString(Constant.HERO_NAME).toString()
     }
+
     override fun setup() {
         log("inside")
     }

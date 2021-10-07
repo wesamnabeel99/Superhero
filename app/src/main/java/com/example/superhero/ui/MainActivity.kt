@@ -8,52 +8,41 @@ import com.example.superhero.Status
 import com.example.superhero.databinding.ActivityMainBinding
 import com.example.superhero.model.SearchResponse
 import com.example.superhero.model.SuperHero
-import com.example.superhero.repositry.HeroRepositry
+import com.example.superhero.presenter.MainPresenter
+import com.example.superhero.repositry.HeroRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity(){
-    lateinit var binding:ActivityMainBinding
+class MainActivity : AppCompatActivity(),IMainView {
+    lateinit var binding: ActivityMainBinding
+    private val presenter = MainPresenter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        getQueryResult("Batman")
 
     }
 
-    private fun getHeroReusltsById(id: Int){
+    override fun onSuperHeroSuccess(superHero: SuperHero) {
+        //Bind Data to RecyclerView
+
+    }
+
+    private fun getHeroReusltsById(id: Int) {
         lifecycleScope.launch {
-            HeroRepositry.getSuperResults(id).collect{getSuperHeroById(it)}
+            presenter.getSuperResults(id).collect { presenter.getSuperHeroById(it) }
         }
     }
 
-    private fun getSuperHeroById(status: Status<SuperHero>) {
-        when (status) {
-            is Status.Error -> {
-                Log.i(TAG,"error ${status.message}")
-            }
-            is Status.Loading -> {
-                Log.i(TAG,"loading")
-            }
-            is Status.Success -> {
-                Log.i(TAG,"sucess ${status.data.name}")
-            }
-        }
-    }
 
-    private fun getQueryResult(searchQuery:String){
-           lifecycleScope.launch {
-             HeroRepositry.getQueryResults(searchQuery).collect { getSearchResponceStatus(it) }
-           }
-       }
-    private fun getSearchResponceStatus(status:Status<SearchResponse>) {
+    private fun getSearchResponseStatus(status: Status<SearchResponse>) {
         when (status) {
             is Status.Error -> {
-                Log.i(TAG,"error ${status.message}")
+                Log.i(TAG, "error ${status.message}")
             }
             Status.Loading -> {
-                Log.i(TAG,"loading")
+                Log.i(TAG, "loading")
             }
             is Status.Success -> {
 //                Log.i(TAG,"sucess ${status.data.listOfResults[0].biography}")
@@ -61,8 +50,9 @@ class MainActivity : AppCompatActivity(){
             }
         }
     }
-    companion object{
-        const val TAG="Hero"
+
+    companion object {
+        const val TAG = "Hero"
     }
 }
 

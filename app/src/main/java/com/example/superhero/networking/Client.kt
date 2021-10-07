@@ -11,7 +11,7 @@ import okhttp3.Request
 object Client {
     private val okHttpClient = OkHttpClient()
 
-     private fun buildUrl(superHeroName:String)=HttpUrl.Builder()
+    private fun buildUrl(superHeroName: String) = HttpUrl.Builder()
         .scheme(Constant.SCHEMA)
         .host(Constant.HOST)
         .addPathSegment(Constant.API)
@@ -20,8 +20,8 @@ object Client {
         .addPathSegment(superHeroName)
         .build()
 
-     fun getQueryReuslts(searchQuery: String): Status<SearchResponse> {
-        val request=Request.Builder()
+    fun getQueryReuslts(searchQuery: String): Status<SearchResponse> {
+        val request = Request.Builder()
             .url(buildUrl(searchQuery))
             .build()
         val responseName = okHttpClient.newCall(request).execute()
@@ -29,15 +29,11 @@ object Client {
         return CheckResponse.responseNameStatus(responseName)
     }
 
-    fun getSuperHeroDataById(id : Int) : Status<SuperHero>{
-        val request=Request.Builder()
+    fun getSuperHeroDataById(id: Int): Status<SuperHero> {
+        val request = Request.Builder()
             .url("https://superheroapi.com/api/4409559309126530/$id")
             .build()
         val responseName = okHttpClient.newCall(request).execute()
         return CheckResponse.responseIdStatus(responseName)
     }
-
-
-
-
 }
