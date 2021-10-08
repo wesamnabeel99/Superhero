@@ -43,10 +43,10 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun getQueryResult(searchQuery:String){
-           lifecycleScope.launch {
-             HeroRepositry.getQueryResults(searchQuery).collect { getSearchResponceStatus(it) }
-           }
-       }
+        lifecycleScope.launch {
+            HeroRepositry.getQueryResults(searchQuery).collect { getSearchResponceStatus(it) }
+        }
+    }
     private fun getSearchResponceStatus(status:Status<SearchResponse>) {
         when (status) {
             is Status.Error -> {
