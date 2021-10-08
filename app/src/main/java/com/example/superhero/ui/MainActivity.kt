@@ -19,34 +19,36 @@ class MainActivity : AppCompatActivity(), IMainView {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         getQueryResult("Batman")
-
-    }
-
-    private fun getHeroReusltsById(id: Int) {
-        lifecycleScope.launch {
-            presenter.getSuperResults(id).collect { presenter.getSuperHeroById(it) }
-        }
     }
 
 
     private fun getQueryResult(searchQuery: String) {
         lifecycleScope.launch {
-            presenter.getQueryResults(searchQuery).collect { presenter.getSearchResponseStatus(it) }
+            presenter.emitRequestResult<SearchResponse>(searchQuery).collect { presenter.getSearchQuery(it) }
         }
     }
+
+    private fun getHeroReusltsById(id: String) {
+        lifecycleScope.launch {
+            presenter.emitRequestResult<SuperHero>(id).collect { presenter.getSuperHeroById(it) }
+        }
+    }
+
+
 
     companion object {
         const val TAG = "Hero"
     }
 
     override fun onSearchQuerySuccess(searchResponse: SearchResponse) {
-        Log.i(TAG, "I got this from search ${searchResponse.listOfResults[0].name}")
-
-        getHeroReusltsById(searchResponse.listOfResults[0].id!!.toInt())
+        searchResponse.listOfResults.forEach {
+            Log.i(TAG, "${it.name}")
+        }
+        getHeroReusltsById(searchResponse.listOfResults[0].id!!)
     }
 
     override fun onSuperHeroSuccess(superHero: SuperHero) {
-        Log.i(MainActivity.TAG, "I got this super hero! ${superHero.name}")
+        Log.i(TAG, "I got this super hero! ${superHero.name}")
         Toast.makeText(this, "I got the super hero! ${superHero.name} !", Toast.LENGTH_LONG).show()
     }
 }

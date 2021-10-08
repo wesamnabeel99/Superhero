@@ -13,29 +13,11 @@ import kotlinx.coroutines.flow.flowOn
 
 class MainPresenter(private val view: IMainView) {
 
-    fun getQueryResults(searchQuery: String) = flow {
+    inline fun <reified T> emitRequestResult(searchQuery: String) = flow {
         emit(Status.Loading)
-        emit(Client.getQueryReuslts(searchQuery))
+        emit(Client.makeSuperHeroRequestById <T> (searchQuery))
     }.flowOn(Dispatchers.IO)
 
-    fun getSearchResponseStatus(status: Status<SearchResponse>) {
-        when (status) {
-            is Status.Error -> {
-                Log.i(MainActivity.TAG, "error ${status.message}")
-            }
-            Status.Loading -> {
-                Log.i(MainActivity.TAG, "loading")
-            }
-            is Status.Success -> {
-                view.onSearchQuerySuccess(status.data)
-            }
-        }
-    }
-
-    fun getSuperResults(id: Int) = flow {
-        emit(Status.Loading)
-        emit(Client.getSuperHeroDataById(id))
-    }.flowOn(Dispatchers.IO)
 
     fun getSuperHeroById(status: Status<SuperHero>) {
         when (status) {
@@ -47,6 +29,20 @@ class MainPresenter(private val view: IMainView) {
             }
             is Status.Success -> {
                 view.onSuperHeroSuccess(status.data)
+            }
+        }
+    }
+
+    fun getSearchQuery(status: Status<SearchResponse>) {
+        when (status) {
+            is Status.Error -> {
+                Log.i(MainActivity.TAG, "error ${status.message}")
+            }
+            is Status.Loading -> {
+                Log.i(MainActivity.TAG, "loading")
+            }
+            is Status.Success -> {
+                view.onSearchQuerySuccess(status.data)
             }
         }
     }

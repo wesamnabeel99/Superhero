@@ -13,7 +13,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
 
     //region initialize variables
-    internal lateinit var MyDialog: Dialog
+    internal lateinit var myDialog: Dialog
     abstract val LOG_TAG: String
     abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
     private var _binding: ViewBinding? = null
