@@ -6,4 +6,5 @@
     <dimen name="marginNormal">36dp</dimen>
     <dimen name="marginLarge">64dp</dimen>
     <dimen name="result_Fragment_height">500dp</dimen>
+    <dimen name="recycler_height">540dp</dimen>
 </resources>

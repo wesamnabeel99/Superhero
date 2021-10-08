@@ -2,6 +2,7 @@ package com.example.superhero.model
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class SuperHero(
     var appearance: Appearance? = Appearance(),
@@ -13,4 +14,4 @@ data class SuperHero(
     var powerstats: Powerstats? = Powerstats(),
     var response: String? = "",
     var work: Work? = Work()
-)
+) : Serializable
