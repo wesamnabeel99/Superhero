@@ -1,5 +1,5 @@
 package com.example.superhero.networking
 
-enum class RequestType {
+enum class ResponseType {
     SearchResponse, SuperHero
 }

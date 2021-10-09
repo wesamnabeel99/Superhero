@@ -4,9 +4,9 @@ import android.util.Log
 import com.example.superhero.Status
 import com.example.superhero.model.SearchResponse
 import com.example.superhero.model.SuperHero
-import com.example.superhero.networking.Client
+
 import com.example.superhero.networking.Client1
-import com.example.superhero.networking.RequestType
+import com.example.superhero.networking.ResponseType
 import com.example.superhero.ui.IMainView
 import com.example.superhero.ui.MainActivity
 import kotlinx.coroutines.Dispatchers
@@ -15,9 +15,9 @@ import kotlinx.coroutines.flow.flowOn
 
 class MainPresenter(private val view: IMainView) {
 
-    inline fun <reified T> emitRequestResult(searchQuery: String,requestType: RequestType) = flow {
+    inline fun <reified T> emitRequestResult(searchQuery: String, responseType: ResponseType) = flow {
         emit(Status.Loading)
-        emit(Client1.makeSuperHeroRequest<T>(searchQuery,requestType))
+        emit(Client1.makeSuperHeroRequest<T>(searchQuery,responseType))
     }.flowOn(Dispatchers.IO)
 
 

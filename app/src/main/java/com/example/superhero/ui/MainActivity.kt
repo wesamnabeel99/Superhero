@@ -8,7 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.superhero.databinding.ActivityMainBinding
 import com.example.superhero.model.SearchResponse
 import com.example.superhero.model.SuperHero
-import com.example.superhero.networking.RequestType
+import com.example.superhero.networking.ResponseType
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -25,23 +25,23 @@ class MainActivity : AppCompatActivity(), IMainView {
 
     private fun getQueryResult(searchQuery: String) {
         lifecycleScope.launch {
-            presenter.emitRequestResult<SearchResponse>(searchQuery,requestType = RequestType.SearchResponse).collect { presenter.getSearchQuery(it) }
+            presenter.emitRequestResult<SearchResponse>(searchQuery,responseType = ResponseType.SearchResponse).collect { presenter.getSearchQuery(it) }
         }
     }
 
     private fun getHeroReusltsById(id: String) {
         lifecycleScope.launch {
-            presenter.emitRequestResult<SuperHero>(id,requestType = RequestType.SuperHero).collect { presenter.getSuperHeroById(it) }
+            presenter.emitRequestResult<SuperHero>(id,responseType = ResponseType.SuperHero).collect { presenter.getSuperHeroById(it) }
         }
     }
-
-
 
     companion object {
         const val TAG = "Hero"
     }
 
     override fun onSearchQuerySuccess(searchResponse: SearchResponse) {
+
+        Log.i(TAG, "${ searchResponse.listOfResults.count()}")
         searchResponse.listOfResults.forEach {
             Log.i(TAG, "${it.name}")
         }
