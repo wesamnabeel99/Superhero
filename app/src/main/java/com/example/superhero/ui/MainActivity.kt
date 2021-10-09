@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.superhero.databinding.ActivityMainBinding
 import com.example.superhero.model.SearchResponse
 import com.example.superhero.model.SuperHero
+import com.example.superhero.networking.RequestType
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -24,13 +25,13 @@ class MainActivity : AppCompatActivity(), IMainView {
 
     private fun getQueryResult(searchQuery: String) {
         lifecycleScope.launch {
-            presenter.emitRequestResult<SearchResponse>(searchQuery).collect { presenter.getSearchQuery(it) }
+            presenter.emitRequestResult<SearchResponse>(searchQuery,requestType = RequestType.SearchResponse).collect { presenter.getSearchQuery(it) }
         }
     }
 
     private fun getHeroReusltsById(id: String) {
         lifecycleScope.launch {
-            presenter.emitRequestResult<SuperHero>(id).collect { presenter.getSuperHeroById(it) }
+            presenter.emitRequestResult<SuperHero>(id,requestType = RequestType.SuperHero).collect { presenter.getSuperHeroById(it) }
         }
     }
 

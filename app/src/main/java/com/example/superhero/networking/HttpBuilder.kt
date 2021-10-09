@@ -3,7 +3,7 @@ package com.example.superhero.networking
 import com.example.superhero.util.Constant
 import okhttp3.HttpUrl
 
-object xHttpBuilder {
+object HttpBuilder {
 
     private fun buildBaseUrl() = HttpUrl.Builder()
         .scheme(Constant.SCHEMA)
