@@ -15,7 +15,7 @@ class MainPresenter(private val view: IMainView) {
 
     inline fun <reified T> emitRequestResult(searchQuery: String) = flow {
         emit(Status.Loading)
-        emit(Client.makeSuperHeroRequestById <T> (searchQuery))
+        emit(Client.makeSuperHeroRequest<T>(searchQuery))
     }.flowOn(Dispatchers.IO)
 
 

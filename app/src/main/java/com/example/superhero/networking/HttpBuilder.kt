@@ -3,9 +3,9 @@ package com.example.superhero.networking
 import com.example.superhero.util.Constant
 import okhttp3.HttpUrl
 
-object HttpBuilder {
+object xHttpBuilder {
 
-     private fun buildBaseUrl() = HttpUrl.Builder()
+    private fun buildBaseUrl() = HttpUrl.Builder()
         .scheme(Constant.SCHEMA)
         .host(Constant.HOST)
         .addPathSegment(Constant.API)

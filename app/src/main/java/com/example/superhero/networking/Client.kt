@@ -7,8 +7,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 
 object Client {
-    lateinit var url : HttpUrl
-    inline fun <reified T> makeSuperHeroRequestById (segment : String) : Status <T> {
+    lateinit var url: HttpUrl
+    inline fun <reified T> makeSuperHeroRequest(segment: String): Status<T> {
         val checkClass = T::class.java
         url = when {
             checkClass.isAssignableFrom(SearchResponse::class.java) -> {
@@ -22,7 +22,7 @@ object Client {
         val okHttpClient = OkHttpClient()
         val request = Request.Builder().url(url).build()
         val response = okHttpClient.newCall(request).execute()
-        return ResponseStatus.checkResponseStatus (response)
+        return ResponseStatus.checkResponseStatus(response)
     }
 
 }
