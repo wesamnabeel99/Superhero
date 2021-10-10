@@ -5,9 +5,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.superhero.R
 import com.example.superhero.databinding.ActivityMainBinding
-import com.example.superhero.model.SuperHero
 import com.example.superhero.ui.fragments.HomeFragment
-import com.example.superhero.ui.fragments.ResultFragment
+import com.example.superhero.ui.fragments.BiographyFragment
 import com.example.superhero.ui.interfaces.FragmentCommunicator
 
 class MainActivity : AppCompatActivity(), FragmentCommunicator {
@@ -34,7 +33,7 @@ class MainActivity : AppCompatActivity(), FragmentCommunicator {
     }
 
     override fun passDataBetweenFragments(data: String) {
-        replaceFragment(ResultFragment.createNewInstance(data))
+        replaceFragment(BiographyFragment.createNewInstance(data))
     }
 
     companion object {

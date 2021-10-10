@@ -16,7 +16,7 @@ class SuperHeroAdapter (
     :RecyclerView.Adapter<HeroViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeroViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_result,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_biography,parent,false)
         return HeroViewHolder(view)
     }
 
