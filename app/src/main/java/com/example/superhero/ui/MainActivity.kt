@@ -3,66 +3,63 @@ package com.example.superhero.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import com.example.superhero.Status
 import com.example.superhero.databinding.ActivityMainBinding
 import com.example.superhero.model.SearchResponse
 import com.example.superhero.model.SuperHero
-import com.example.superhero.repositry.HeroRepositry
+import com.example.superhero.networking.ResponseType
+import com.example.superhero.presenter.MainPresenter
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity(){
-    lateinit var binding:ActivityMainBinding
+class MainActivity : AppCompatActivity(), IMainView {
+    val presenter = MainPresenter(this)
+    lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        getQueryResult("Batman")
-
+        search("Batman")
     }
 
-    private fun getHeroReusltsById(id: Int){
+    private fun search(query: String) {
+        collectResult<SearchResponse>(query,ResponseType.SearchResponse)
+    }
+
+
+      private inline fun <reified T> collectResult(urlSegment: String, responseType : ResponseType) {
         lifecycleScope.launch {
-            HeroRepositry.getSuperResults(id).collect{getSuperHeroById(it)}
+            presenter.emitRequestResult<T>(urlSegment,responseType)
+                .collect {
+                    presenter.run {
+                        getRequestStatus(status = it, responseType)
+                    }
+                }
         }
     }
 
-    private fun getSuperHeroById(status: Status<SuperHero>) {
-        when (status) {
-            is Status.Error -> {
-                Log.i(TAG,"error ${status.message}")
-            }
-            is Status.Loading -> {
-                Log.i(TAG,"loading")
-            }
-            is Status.Success -> {
-                Log.i(TAG,"sucess ${status.data.name}")
-            }
+
+    override fun onSearchQuerySuccess(searchResponse: SearchResponse) {
+        //TODO : show results on recycler view
+        collectResult <SuperHero> (searchResponse.listOfResults[0].id!!,ResponseType.SuperHero)
+
+        Log.i(TAG, "${ searchResponse.listOfResults.count()}")
+        searchResponse.listOfResults.forEach {
+            Log.i(TAG, "${it.name}")
         }
+
     }
 
-    private fun getQueryResult(searchQuery:String){
-           lifecycleScope.launch {
-             HeroRepositry.getQueryResults(searchQuery).collect { getSearchResponceStatus(it) }
-           }
-       }
-    private fun getSearchResponceStatus(status:Status<SearchResponse>) {
-        when (status) {
-            is Status.Error -> {
-                Log.i(TAG,"error ${status.message}")
-            }
-            Status.Loading -> {
-                Log.i(TAG,"loading")
-            }
-            is Status.Success -> {
-//                Log.i(TAG,"sucess ${status.data.listOfResults[0].biography}")
-                getHeroReusltsById(status.data.listOfResults[0].id!!.toInt())
-            }
-        }
+    override fun onSuperHeroSuccess(superHero: SuperHero) {
+        //TODO : when you get the SuperHero data pass it to the biography fragment
+        Log.i(TAG, "I got this super hero! ${superHero.name}")
+        Toast.makeText(this, "I got the super hero! ${superHero.name} !", Toast.LENGTH_LONG).show()
     }
-    companion object{
-        const val TAG="Hero"
+
+    companion object {
+        const val TAG = "Hero"
     }
+
 }
 

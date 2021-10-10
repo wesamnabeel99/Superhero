@@ -8,34 +8,39 @@ import android.view.ViewGroup
 import com.example.superhero.R
 import com.example.superhero.databinding.FragmentHomeBinding
 import com.example.superhero.util.Constant
+import com.example.superhero.util.isEnterPressed
 
-class HomeFragment:BaseFragment<FragmentHomeBinding>() {
-    override val LOG_TAG: String="HOME_FRAGMENT"
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding=FragmentHomeBinding::inflate
+class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+    override val LOG_TAG: String = "HOME_FRAGMENT"
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding =
+        FragmentHomeBinding::inflate
+
     override fun setup() {
         log(LOG_TAG)
     }
 
     override fun addCallbacks() {
         binding?.editTextSearch?.setOnEditorActionListener { textView, i, keyEvent ->
-            if (keyEvent!=null && keyEvent.keyCode==KeyEvent.KEYCODE_ENTER){
+            if (keyEvent.isEnterPressed()) {
                 hideViews()
                 addResultFragment(textView.text.toString())
             }
 
             false
         }
-        }
+    }
 
     private fun addResultFragment(heroName: String) {
-        val resultFragment=ResultFragment()
-        val bundle=Bundle()
-        bundle.putString(Constant.HERO_NAME,heroName)
-        resultFragment.arguments=bundle
-        requireActivity().supportFragmentManager.beginTransaction().add(R.id.fragment_container_result,resultFragment).commit()
+        val resultFragment = ResultFragment()
+        val bundle = Bundle()
+        bundle.putString(Constant.HERO_NAME, heroName)
+        resultFragment.arguments = bundle
+        requireActivity().supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container_result, resultFragment).commit()
     }
 
     private fun hideViews() {
-        binding?.searchAnimation?.visibility=View.GONE
+        binding?.searchAnimation?.visibility = View.GONE
     }
 }
+
