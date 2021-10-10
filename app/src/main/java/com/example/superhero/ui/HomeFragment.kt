@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.example.superhero.R
 import com.example.superhero.databinding.FragmentHomeBinding
 import com.example.superhero.util.Constant
+import com.example.superhero.util.isEnterPressed
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val LOG_TAG: String = "HOME_FRAGMENT"
@@ -20,7 +21,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun addCallbacks() {
         binding?.editTextSearch?.setOnEditorActionListener { textView, i, keyEvent ->
-            if (keyEvent != null && keyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
+            if (keyEvent.isEnterPressed()) {
                 hideViews()
                 addResultFragment(textView.text.toString())
             }
@@ -42,3 +43,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding?.searchAnimation?.visibility = View.GONE
     }
 }
+
