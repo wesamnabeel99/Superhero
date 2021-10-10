@@ -2,6 +2,7 @@ package com.example.superhero.model
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class SuperHero(
     @SerializedName("appearance")
@@ -22,4 +23,4 @@ data class SuperHero(
     var response: String? = "",
     @SerializedName("work")
     var work: Work? = Work()
-)
+) : Serializable

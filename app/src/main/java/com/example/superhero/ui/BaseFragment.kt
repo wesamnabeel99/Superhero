@@ -8,8 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.example.superhero.presenter.BasePresenter
 
-abstract class BaseFragment<VB : ViewBinding> : Fragment() {
+abstract class BaseFragment<VB : ViewBinding , P : BasePresenter> : Fragment() {
 
 
     //region initialize variables
@@ -19,6 +20,13 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     private var _binding: ViewBinding? = null
     protected val binding
         get() = _binding as VB?
+
+    abstract val presenterType : BasePresenter
+
+    private lateinit var _presenter : BasePresenter
+    protected val presenter :P ?
+        get() = _presenter as P?
+
     //endregion
 
     //region fragment creation override
@@ -28,6 +36,8 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         container?.removeAllViews()
+        _presenter = presenterType
+
         _binding = bindingInflater(inflater, container, false)
         return requireNotNull(_binding).root
     }

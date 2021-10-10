@@ -2,4 +2,4 @@ package com.example.superhero.util
 
 import android.view.KeyEvent
 
-fun KeyEvent.isEnterPressed() = this.keyCode == KeyEvent.KEYCODE_ENTER
+fun KeyEvent?.isKeyPressed() = this?.keyCode != null && this.keyCode == KeyEvent.KEYCODE_ENTER
