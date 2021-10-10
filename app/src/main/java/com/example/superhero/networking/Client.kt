@@ -1,6 +1,7 @@
 package com.example.superhero.networking
 
 import com.example.superhero.Status
+import com.example.superhero.util.ResponseType
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request

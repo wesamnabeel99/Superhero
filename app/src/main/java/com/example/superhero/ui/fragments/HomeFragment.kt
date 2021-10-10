@@ -1,4 +1,4 @@
-package com.example.superhero.ui
+package com.example.superhero.ui.fragments
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,17 +7,21 @@ import androidx.lifecycle.lifecycleScope
 import com.example.superhero.databinding.FragmentHomeBinding
 import com.example.superhero.model.SearchResponse
 import com.example.superhero.model.SuperHero
-import com.example.superhero.networking.ResponseType
+import com.example.superhero.util.ResponseType
 import com.example.superhero.presenter.HomePresenter
+import com.example.superhero.ui.Adapters.SuperHeroAdapter
 import com.example.superhero.ui.interfaces.IHomeView
-import com.example.superhero.util.FragmentCommunicator
+import com.example.superhero.ui.interfaces.FragmentCommunicator
+import com.example.superhero.ui.interfaces.SuperHeroInteractionListener
 import com.example.superhero.util.isKeyPressed
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class HomeFragment (private val fragmentCommunicator: FragmentCommunicator)
-    : BaseFragment<FragmentHomeBinding , HomePresenter>(), IHomeView {
+    : BaseFragment<FragmentHomeBinding, HomePresenter>(), IHomeView, SuperHeroInteractionListener {
+
     override val LOG_TAG: String = "HOME_FRAGMENT"
+
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding =
         FragmentHomeBinding::inflate
 
@@ -25,7 +29,6 @@ class HomeFragment (private val fragmentCommunicator: FragmentCommunicator)
 
     override fun setup() {
         presenterType.view = this
-        log(LOG_TAG)
     }
 
     override fun addCallbacks() {
@@ -38,11 +41,13 @@ class HomeFragment (private val fragmentCommunicator: FragmentCommunicator)
         }
     }
 
+    private fun hideViews() {
+        binding?.searchAnimation?.visibility = View.GONE
+    }
 
     private fun search(query: String) {
         collectResult<SearchResponse>(query , ResponseType.SearchResponse)
     }
-
 
     private inline fun <reified T> collectResult(urlSegment: String, responseType : ResponseType) {
         lifecycleScope.launch {
@@ -53,19 +58,17 @@ class HomeFragment (private val fragmentCommunicator: FragmentCommunicator)
         }
     }
 
-
-    private fun hideViews() {
-        binding?.searchAnimation?.visibility = View.GONE
-    }
-
     override fun <T> onSuccess(response: T) {
         val listOfSuperHeroes = (response as SearchResponse).listOfResults
         bindIntoRecycler(listOfSuperHeroes)
     }
 
     private fun bindIntoRecycler(listOfSuperHeroes : MutableList<SuperHero>) {
-        fragmentCommunicator.passDataBetweenFragments(listOfSuperHeroes[0])
-        //TODO("Not yet implemented")
+        binding?.recyclerView!!.adapter = SuperHeroAdapter(listOfSuperHeroes,this)
+    }
+
+    override fun onItemClick(superHero: SuperHero) {
+        fragmentCommunicator.passDataBetweenFragments(superHero.id.toString())
     }
 
 

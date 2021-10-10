@@ -1,7 +1,7 @@
 package com.example.superhero.util
 
 object Constant {
-    const val HERO_NAME = "hero_name"
+    const val SUPER_HERO_KEY = "superHeroData"
     const val SCHEMA = "https"
     const val HOST = "www.superheroapi.com"
     const val API = "api.php"

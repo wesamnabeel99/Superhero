@@ -1,4 +1,4 @@
-package com.example.superhero.ui
+package com.example.superhero.ui.fragments
 
 import android.app.Dialog
 import android.os.Bundle

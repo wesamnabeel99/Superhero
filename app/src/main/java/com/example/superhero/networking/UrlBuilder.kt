@@ -1,11 +1,12 @@
 package com.example.superhero.networking
 
 import com.example.superhero.util.Constant
+import com.example.superhero.util.ResponseType
 import okhttp3.HttpUrl
 
 object UrlBuilder {
 
-    fun setUrlBasedOnResponseType(responseType:ResponseType,segment: String) = when (responseType) {
+    fun setUrlBasedOnResponseType(responseType: ResponseType, segment: String) = when (responseType) {
             ResponseType.SearchResponse -> {
                 buildSearchUrl(segment)
             }

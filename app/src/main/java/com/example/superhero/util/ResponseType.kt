@@ -1,4 +1,4 @@
-package com.example.superhero.networking
+package com.example.superhero.util
 
 enum class ResponseType {
     SearchResponse,

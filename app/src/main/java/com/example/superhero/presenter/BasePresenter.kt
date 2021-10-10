@@ -6,7 +6,7 @@ import com.example.superhero.model.SearchResponse
 import com.example.superhero.model.SuperHero
 
 import com.example.superhero.networking.Client
-import com.example.superhero.networking.ResponseType
+import com.example.superhero.util.ResponseType
 import com.example.superhero.ui.interfaces.BaseInterface
 import com.example.superhero.ui.MainActivity
 import kotlinx.coroutines.Dispatchers
