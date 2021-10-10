@@ -1,10 +1,10 @@
 package com.example.superhero.util
 
 object Constant {
-    val HERO_NAME = "hero_name"
-    val SCHEMA = "https"
-    val HOST = "www.superheroapi.com"
-    val API = "api.php"
-    val TOKEN = "4409559309126530"
-    val SEARCH = "search"
+    const val HERO_NAME = "hero_name"
+    const val SCHEMA = "https"
+    const val HOST = "www.superheroapi.com"
+    const val API = "api.php"
+    const val TOKEN = "4409559309126530"
+    const val SEARCH = "search"
 }

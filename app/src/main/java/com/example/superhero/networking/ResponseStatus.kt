@@ -5,10 +5,10 @@ import okhttp3.Response
 
 object ResponseStatus {
 
-    inline fun <reified T> checkResponseStatus(response: Response): Status<T> {
+    inline fun <reified T> getResponseStatus(response: Response): Status<T> {
         return if (response.isSuccessful) {
-            val parserResponse = JsonParser.parseTheResponse<T>(response)
-            Status.Success(parserResponse)
+            val parsedResponse = JsonParser.parseTheResponse<T>(response)
+            Status.Success(parsedResponse)
         } else {
             Status.Error(response.message)
         }
